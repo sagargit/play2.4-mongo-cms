@@ -1,0 +1,54 @@
+@(id: Option[String], employeeForm: Form[Employee], files: Option[List[(play.api.libs.json.JsString, reactivemongo.api.gridfs.ReadFile[play.modules.reactivemongo.json.JSONSerializationPack.type, play.api.libs.json.JsString])]])(implicit msg: play.api.i18n.Messages)
+
+@import helper._
+
+@main("Employee-Self-Service") {
+
+		<div>
+			<h1>Edit employee</h1>
+		</div>
+		
+		<div>
+
+				@form(routes.Application.update(id.get)) {
+
+					@inputText(employeeForm("name"), '_label -> "NAME:")
+					@inputText(employeeForm("address"), '_label -> "ADDRESS:")
+					@inputDate(employeeForm("dob"), '_label -> "DATE OF BIRTH:")
+					@inputDate(employeeForm("joiningDate"), '_label -> "JOINING DATE:")
+					@inputText(employeeForm("designation"), '_label -> "DESIGNATION:")
+
+					<input type="submit" value="Update this employee">
+
+					<br>
+					<br>
+
+					<a href="@routes.Application.list()">Cancel Update</a>
+
+				}
+
+		</div>
+
+		<br>
+
+		@form(routes.Application.delete(id.get)) {
+			<input type="submit" value="Delete this employee">
+		}
+	<h2>Attachments</h2>
+	@if(id.isDefined) {
+		@if(files.isDefined) {
+			<ul>
+			@files.get.map { file =>
+				<li><a href="@routes.Application.getAttachment(file._1.value)">@file._2.filename</a> - <a target="_blank" href="@routes.Application.getAttachment(file._1.value)?inline=true">inline</a> - <a class="delete" href="@routes.Application.removeAttachment(file._1.value)">delete</a></li>
+			}
+			</ul>
+		}
+		@helper.form(action = routes.Application.saveAttachment(id.get), 'enctype -> "multipart/form-data") {
+			<input type="file" name="picture">
+			<div>
+				<input type="submit" class="btn">
+			</div>
+		}
+	}
+
+}

@@ -1,0 +1,34 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Default path will just redirect to the employee list
+GET    /                       controllers.Application.index
+
+GET    /search                 controllers.Application.search
+
+GET    /advanceSearch          controllers.Application.advanceSearchResults
+
+# Employees list (look at the default values for pagination parameters)
+GET    /employees              controllers.Application.list
+
+# Add employee
+GET    /employees/new          controllers.Application.create
+POST   /employees/save         controllers.Application.save
+
+# Edit existing employee
+GET    /employees/:id          controllers.Application.edit(id: String)
+POST   /employees/:id          controllers.Application.update(id: String)
+
+# Delete a computer
+POST   /employees/:id/delete   controllers.Application.delete(id: String)
+
+POST    /employees/:id/attachments   controllers.Application.saveAttachment(id: String)
+GET     /attachments/:id            controllers.Application.getAttachment(id: String)
+DELETE  /attachments/:id            controllers.Application.removeAttachment(id: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET    /assets/*file           controllers.Assets.at(path="/public", file)
+
+# Map the webjar static assets to the /webjars URL
+#GET    /webjars/*file          controllers.WebJarAssets.at(file)

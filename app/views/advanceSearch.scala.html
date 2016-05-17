@@ -1,0 +1,26 @@
+@(list: List[String],searchForm: Form[SearchParams])(implicit msg: play.api.i18n.Messages)
+
+@import helper._
+
+@main("Advanced Search") {
+
+    <html>
+        <body>
+
+            @form(routes.Application.advanceSearchResults()){
+                @select(
+                    searchForm("fieldName"),
+                    helper.options(List("name","address")),
+                    '_label -> "Search by field names", '_default -> "-- Select field --"
+                )
+                @inputText(searchForm("fieldValue"),'_Label -> "ENTER FIELD VALUE HERE: ")
+
+                <input type="submit" value="Search">
+        }
+
+        </body>
+    </html>
+
+}
+
+

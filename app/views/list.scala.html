@@ -1,0 +1,54 @@
+@(currentEmployees: List[Employee])(implicit flash: play.api.mvc.Flash, msg: play.api.i18n.Messages)
+
+@main("playing-reactive-mongo") {
+
+			<a href="@routes.Application.create()">Add a new employee</a>
+
+		<br>
+		<br>
+
+		@Option(currentEmployees).filterNot(_.isEmpty).map { employees =>
+			<table border="2" cellpadding="5" cellspacing="5">
+				<thead>
+					<tr>
+						<td> Name </td>
+						<td> Address </td>
+						<td> Date of Birth </td>
+						<td> Joining Date </td>
+						<td> Designation </td>
+						<td> Edit Options </td>
+					</tr>
+				</thead>
+				<tbody>
+
+					@employees.map { employee =>
+						<tr>
+							<td>@employee.name</td>
+							<td>@employee.address</td>
+							<td>@employee.dob.format("dd MMM yyyy")</td>
+							<td>@employee.joiningDate.format("dd MMM yyyy")</td>
+							<td>@employee.designation</td>
+							<td><a href="@routes.Application.edit(employee._id.stringify)"> Edit Record </a> </td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+			<hr/>
+
+		}.getOrElse {
+			<strong>No records found !</strong>
+		}
+		<br>
+		<br>
+
+		@flash.get("success").map { message =>
+				<button type="button"><a href="@routes.Application.list()">×</a></button>
+				<strong>Well done!</strong> @message
+		}
+
+	<div>
+		<a href="@routes.Application.search()">Advance advanceSearch</a>
+	</div>
+}
+

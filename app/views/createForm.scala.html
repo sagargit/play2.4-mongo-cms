@@ -1,0 +1,27 @@
+@(employeeForm: Form[Employee])(implicit msg: play.api.i18n.Messages)
+
+@import helper._
+
+@main("Employee-Self-Service") {
+
+
+		<div>
+			<h1>Add an employee</h1>
+		</div>
+		
+		<div>
+				@form(routes.Application.save()) {
+					@inputText(employeeForm("name"), '_label -> "NAME:")
+					@inputText(employeeForm("address"), '_label -> "ADDRESS:")
+					@inputDate(employeeForm("dob"), '_label -> "DATE OF BIRTH:")
+					@inputDate(employeeForm("joiningDate"), '_label -> "JOINING DATE:")
+					@inputText(employeeForm("designation"), '_label -> "DESIGNATION:")
+
+					<input type="submit" value="Create this employee" >
+					<br>
+					<br>
+					<a href="@routes.Application.list()">Cancel</a>
+				}
+		</div>
+
+}
